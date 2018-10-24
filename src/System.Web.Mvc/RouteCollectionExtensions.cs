@@ -11,6 +11,9 @@ using System.Web.WebPages;
 
 namespace System.Web.Mvc
 {
+    /// <summary>
+    /// 扩展 System.Web.Routing.RouteCollection 对象以进行 MVC 路由。
+    /// </summary>
     public static class RouteCollectionExtensions
     {
         // This method returns a new RouteCollection containing only routes that matched a particular area.
@@ -50,11 +53,26 @@ namespace System.Web.Mvc
             return (usingAreas) ? filteredRoutes : routes;
         }
 
+        /// <summary>
+        /// 返回一个包含有关路由和虚拟路径的信息的对象，该路由和虚拟路径是在当前区域中生成 URL 时产生的。
+        /// </summary>
+        /// <param name="routes">一个包含应用程序的路由的对象。</param>
+        /// <param name="requestContext">一个对象，封装有关所请求的路由的信息。</param>
+        /// <param name="values">一个包含路由参数的对象。</param>
+        /// <returns>一个包含有关路由和虚拟路径的信息的对象，该路由和虚拟路径是在当前区域中生成 URL 时产生的。</returns>
         public static VirtualPathData GetVirtualPathForArea(this RouteCollection routes, RequestContext requestContext, RouteValueDictionary values)
         {
             return GetVirtualPathForArea(routes, requestContext, null /* name */, values);
         }
 
+        /// <summary>
+        /// 返回一个包含有关路由和虚拟路径的信息的对象，该路由和虚拟路径是在当前区域中生成 URL 时产生的。
+        /// </summary>
+        /// <param name="routes">一个包含应用程序的路由的对象。</param>
+        /// <param name="requestContext">一个对象，封装有关所请求的路由的信息。</param>
+        /// <param name="name">要在检索 URL 路径相关信息时使用的路由的名称。</param>
+        /// <param name="values">一个包含路由参数的对象。</param>
+        /// <returns>一个包含有关路由和虚拟路径的信息的对象，该路由和虚拟路径是在当前区域中生成 URL 时产生的。</returns>
         public static VirtualPathData GetVirtualPathForArea(this RouteCollection routes, RequestContext requestContext, string name, RouteValueDictionary values)
         {
             bool usingAreas; // don't care about this value
@@ -112,6 +130,12 @@ namespace System.Web.Mvc
             IgnoreRoute(routes, url, null /* constraints */);
         }
 
+        /// <summary>
+        /// 忽略给定可用路由列表的指定 URL 路由。
+        /// </summary>
+        /// <param name="routes">应用程序的路由的集合。</param>
+        /// <param name="url">要忽略的路由的 URL 模式。</param>
+        /// <param name="constraints">一组表达式，用于指定 url 参数的值。</param>
         [SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#", Justification = "This is not a regular URL as it may contain special routing characters.")]
         public static void IgnoreRoute(this RouteCollection routes, string url, object constraints)
         {
@@ -164,6 +188,16 @@ namespace System.Web.Mvc
             return MapRoute(routes, name, url, defaults, null /* constraints */, namespaces);
         }
 
+        /// <summary>
+        /// 映射指定的 URL 路由并设置默认的路由值、约束和命名空间。
+        /// </summary>
+        /// <param name="routes">应用程序的路由的集合。</param>
+        /// <param name="name">要映射的路由的名称。</param>
+        /// <param name="url">路由的 URL 模式。</param>
+        /// <param name="defaults">一个包含默认路由值的对象。</param>
+        /// <param name="constraints">一组表达式，用于指定 url 参数的值。</param>
+        /// <param name="namespaces">应用程序的一组命名空间。</param>
+        /// <returns>对映射路由的引用。</returns>
         [SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#", Justification = "This is not a regular URL as it may contain special routing characters.")]
         public static Route MapRoute(this RouteCollection routes, string name, string url, object defaults, object constraints, string[] namespaces)
         {

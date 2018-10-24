@@ -7,6 +7,9 @@ using System.Web.SessionState;
 
 namespace System.Web.Mvc
 {
+    /// <summary>
+    /// 创建一个实现 IHttpHandler 接口的对象并向该对象传递请求上下文。
+    /// </summary>
     public class MvcRouteHandler : IRouteHandler
     {
         private IControllerFactory _controllerFactory;
@@ -40,6 +43,11 @@ namespace System.Web.Mvc
 
         #region IRouteHandler Members
 
+        /// <summary>
+        /// 使用指定的 HTTP 上下文返回 HTTP 处理程序。
+        /// </summary>
+        /// <param name="requestContext"></param>
+        /// <returns></returns>
         IHttpHandler IRouteHandler.GetHttpHandler(RequestContext requestContext)
         {
             return GetHttpHandler(requestContext);

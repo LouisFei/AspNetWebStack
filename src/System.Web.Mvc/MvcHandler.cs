@@ -14,6 +14,9 @@ using Microsoft.Web.Infrastructure.DynamicValidationHelper;
 
 namespace System.Web.Mvc
 {
+    /// <summary>
+    /// 选择将处理 HTTP 请求的控制器。
+    /// </summary>
     public class MvcHandler : IHttpAsyncHandler, IHttpHandler, IRequiresSessionState
     {
         private static readonly object _processRequestTag = new object();
@@ -54,6 +57,10 @@ namespace System.Web.Mvc
 
         public RequestContext RequestContext { get; private set; }
 
+        /// <summary>
+        /// 把Mvc版本号添加到Http头中。
+        /// </summary>
+        /// <param name="httpContext"></param>
         protected internal virtual void AddVersionHeader(HttpContextBase httpContext)
         {
             if (!DisableMvcResponseHeader)
@@ -168,9 +175,12 @@ namespace System.Web.Mvc
 
         private void ProcessRequestInit(HttpContextBase httpContext, out IController controller, out IControllerFactory factory)
         {
-            // If request validation has already been enabled, make it lazy. This allows attributes like [HttpPost] (which looks
-            // at Request.Form) to work correctly without triggering full validation.
+            // If request validation has already been enabled, make it lazy. 
+            // 如果已经启用了请求验证，则使其延迟。
+            // This allows attributes like [HttpPost] (which looks at Request.Form) to work correctly without triggering full validation.
+            // 这允许[HttpPost](查看Request.Form)这样的属性在不触发完全验证的情况下正确工作。
             // Tolerate null HttpContext for testing.
+            // 允许测试使用null HttpContext。
             HttpContext currentContext = HttpContext.Current;
             if (currentContext != null)
             {
@@ -185,6 +195,7 @@ namespace System.Web.Mvc
             RemoveOptionalRoutingParameters();
 
             // Get the controller type
+            // 获得控制器类型
             string controllerName = RequestContext.RouteData.GetRequiredString("controller");
 
             // Instantiate the controller and call Execute
